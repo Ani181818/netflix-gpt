@@ -3,12 +3,11 @@ import Header from "./Header"
 import { useRef, useState } from "react";
 import { signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { PHOTO_URL } from "../utils/constants";
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [isSignIn,setIsSignIn] = useState(true);
     const toggleSignIn = ()=>{
         setIsSignIn(!isSignIn);
@@ -27,11 +26,10 @@ const Login = () => {
             .then((userCredential) => {
             const user = userCredential.user;
             updateProfile(user, {
-            displayName: name.current.value, photoURL: "https://thefederal.com/h-upload/2024/01/14/426807-kohli-laughs.webp"
+            displayName: name.current.value, photoURL: PHOTO_URL
             }).then(() => {
                 const {uid,email,displayName,photoURL} = auth.currentUser;
                 dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
-                navigate("/browse")
             }).catch((error) => {
                 setError(error.message);
             });
@@ -48,9 +46,7 @@ const Login = () => {
             .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-             navigate("/browse")
-            console.log(user);
-            // ...
+            console.log(user)
             })
             .catch((error) => {
             const errorCode = error.code;

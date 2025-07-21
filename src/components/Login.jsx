@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { PHOTO_URL } from "../utils/constants";
+import { BG_URL, PHOTO_URL } from "../utils/constants";
 const Login = () => {
     const dispatch = useDispatch();
     const [isSignIn,setIsSignIn] = useState(true);
@@ -64,7 +64,7 @@ const Login = () => {
             <div className="absolute">
             
                 <div>
-                    <img src="https://assets.nflxext.com/ffe/siteui/vlv3/8200f588-2e93-4c95-8eab-ebba17821657/web/IN-en-20250616-TRIFECTA-perspective_9cbc87b2-d9bb-4fa8-9f8f-a4fe8fc72545_large.jpg" 
+                    <img src={BG_URL}
                     alt="bg-logo" />
                 </div>
                 

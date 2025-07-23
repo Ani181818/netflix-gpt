@@ -2,41 +2,42 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { APIOPTIONS, IMG_CDN_URL } from "../utils/constants";
 import Header from "./Header";
-import { ArrowLeft, Play, Calendar, Star, Clock } from "lucide-react";
+import { ArrowLeft, Play, X } from "lucide-react";
 
 const MovieDetail = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
+
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showTrailer, setShowTrailer] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        // Fetch movie details
-        const movieResponse = await fetch(
+        const movieRes = await fetch(
           `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
           APIOPTIONS
         );
-        const movieData = await movieResponse.json();
+        const movieData = await movieRes.json();
 
-        // Fetch movie videos/trailers
-        const videosResponse = await fetch(
+        const videoRes = await fetch(
           `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
           APIOPTIONS
         );
-        const videosData = await videosResponse.json();
+        const videoData = await videoRes.json();
 
-        const trailerVideo = videosData.results.find(
-          (video) => video.type === "Trailer" && video.site === "YouTube"
-        ) || videosData.results[0];
+        const foundTrailer =
+          videoData.results.find(
+            (v) => v.type === "Trailer" && v.site === "YouTube"
+          ) || videoData.results[0];
 
         setMovie(movieData);
-        setTrailer(trailerVideo);
+        setTrailer(foundTrailer);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
+      } catch (err) {
+        console.error("Error fetching movie:", err);
         setLoading(false);
       }
     };
@@ -44,111 +45,78 @@ const MovieDetail = () => {
     fetchMovieDetails();
   }, [movieId]);
 
-  const handleGoBack = () => {
-    navigate("/browse");
-  };
+  const handleGoBack = () => navigate("/browse");
+  const formatRuntime = (mins) => `${Math.floor(mins / 60)}h ${mins % 60}m`;
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
+      <div className="min-h-screen bg-black text-white flex justify-center items-center">
+        Loading...
       </div>
     );
   }
 
   if (!movie) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-white text-xl">Movie not found</div>
+      <div className="min-h-screen bg-black text-white flex justify-center items-center">
+        Movie not found.
       </div>
     );
   }
 
-  const formatRuntime = (minutes) => {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    return `${hours}h ${mins}m`;
-  };
-
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
-      
+
       {/* Back Button */}
       <button
         onClick={handleGoBack}
         className="fixed top-20 left-6 z-30 bg-black/70 hover:bg-black/90 p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
       >
-        Click me
+        <ArrowLeft className="w-6 h-6" />
       </button>
 
-      {/* Hero Section with Trailer */}
+      {/* Trailer Modal Fullscreen */}
+      {showTrailer && trailer && (
+        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
+          <iframe
+            src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0&controls=1&rel=0&modestbranding=1`}
+            className="w-full h-full"
+            allow="autoplay; fullscreen; clipboard-write; encrypted-media; picture-in-picture"
+            allowFullScreen
+            title="Trailer"
+          ></iframe>
+          <button
+            className="absolute top-4 right-4 bg-black/70 hover:bg-black p-2 rounded-full z-50"
+            onClick={() => setShowTrailer(false)}
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+        </div>
+      )}
+
+      {/* Hero Section */}
       <div className="relative">
-        {trailer ? (
-          <div className="w-full h-screen">
-            <iframe
-              className="w-full h-full object-cover"
-              src={`https://www.youtube.com/embed/${trailer.key}?mute=1&controls=1&rel=0`}
+        <div className="w-full h-screen relative">
+          <img
+            src={`${IMG_CDN_URL}${movie.backdrop_path}`}
+            alt={movie.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
 
-              title="Movie Trailer"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        ) : (
-          <div className="w-full h-screen relative">
-            <img
-              src={`${IMG_CDN_URL}${movie.backdrop_path}`}
-              alt={movie.title}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/50" />
-          </div>
-        )}
-
-        {/* Movie Info Overlay */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8 md:p-12">
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
               {movie.title}
             </h1>
-            
-            <div className="flex flex-wrap items-center gap-6 mb-6 text-sm md:text-base">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <span>{new Date(movie.release_date).getFullYear()}</span>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-400" />
-                <span>{movie.vote_average.toFixed(1)}/10</span>
-              </div>
-              
-              {movie.runtime && (
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{formatRuntime(movie.runtime)}</span>
-                </div>
-              )}
-            </div>
 
-            <div className="flex flex-wrap gap-2 mb-6">
-              {movie.genres?.map((genre) => (
-                <span
-                  key={genre.id}
-                  className="px-3 py-1 bg-red-600/80 rounded-full text-sm backdrop-blur-sm"
-                >
-                  {genre.name}
-                </span>
-              ))}
-            </div>
-
-            <p className="text-lg md:text-xl leading-relaxed max-w-3xl mb-8 drop-shadow-sm">
-              {movie.overview}
-            </p>
-
-            {trailer && (
-              <button className="flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300">
+            {trailer && !showTrailer && (
+              <button
+                onClick={() => setShowTrailer(true)}
+                className="flex items-center gap-3 bg-red-600 hover:bg-red-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors duration-300"
+              >
                 <Play className="w-6 h-6" />
                 Watch Trailer
               </button>
@@ -157,11 +125,10 @@ const MovieDetail = () => {
         </div>
       </div>
 
-      {/* Additional Movie Details */}
+      {/* Movie Info Section */}
       <div className="px-8 md:px-12 py-12 bg-gray-900">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Movie Poster */}
             <div className="md:col-span-1">
               <img
                 src={`${IMG_CDN_URL}${movie.poster_path}`}
@@ -170,42 +137,46 @@ const MovieDetail = () => {
               />
             </div>
 
-            {/* Movie Details */}
             <div className="md:col-span-2 space-y-6">
               <div>
                 <h2 className="text-2xl font-bold mb-4">Movie Details</h2>
                 <div className="grid sm:grid-cols-2 gap-4 text-gray-300">
                   <div>
-                    <span className="font-semibold text-white">Release Date:</span>
+                    <span className="font-semibold text-white">
+                      Release Date:
+                    </span>
                     <p>{new Date(movie.release_date).toLocaleDateString()}</p>
                   </div>
-                  
+
                   <div>
                     <span className="font-semibold text-white">Rating:</span>
-                    <p>{movie.vote_average.toFixed(1)}/10 ({movie.vote_count} votes)</p>
+                    <p>
+                      {movie.vote_average.toFixed(1)}/10 ({movie.vote_count}{" "}
+                      votes)
+                    </p>
                   </div>
-                  
+
                   {movie.runtime && (
                     <div>
                       <span className="font-semibold text-white">Runtime:</span>
                       <p>{formatRuntime(movie.runtime)}</p>
                     </div>
                   )}
-                  
+
                   {movie.budget > 0 && (
                     <div>
                       <span className="font-semibold text-white">Budget:</span>
                       <p>${movie.budget.toLocaleString()}</p>
                     </div>
                   )}
-                  
+
                   {movie.revenue > 0 && (
                     <div>
                       <span className="font-semibold text-white">Revenue:</span>
                       <p>${movie.revenue.toLocaleString()}</p>
                     </div>
                   )}
-                  
+
                   <div>
                     <span className="font-semibold text-white">Status:</span>
                     <p>{movie.status}</p>
@@ -215,7 +186,9 @@ const MovieDetail = () => {
 
               {movie.production_companies?.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-bold mb-3">Production Companies</h3>
+                  <h3 className="text-xl font-bold mb-3">
+                    Production Companies
+                  </h3>
                   <div className="flex flex-wrap gap-4">
                     {movie.production_companies.map((company) => (
                       <div key={company.id} className="text-gray-300">

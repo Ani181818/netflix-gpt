@@ -1,7 +1,7 @@
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
@@ -52,7 +52,9 @@ const Header = () => {
     return (
       <>
         <div className="flex justify-between w-screen absolute px-8 py-2 bg-gradient-to-b from-black z-10">
-          <img className="w-44" src={LOGO} alt="logo" />
+          <Link to="/browse">
+            <img className="w-44" src={LOGO} alt="logo" />
+          </Link>
           {userItem && (
             <div className="flex  p-2">
               {showGptSearch && (

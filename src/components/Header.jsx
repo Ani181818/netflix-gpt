@@ -36,7 +36,10 @@ const Header = () => {
        
         const {uid,email,displayName,photoURL} = user;
          dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
-         navigate("/browse")
+         // Only navigate to browse if we're on the login page
+         if (window.location.pathname === "/") {
+           navigate("/browse")
+         }
         } else {
         //sign out
         dispatch(removeUser())

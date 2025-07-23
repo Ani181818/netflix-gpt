@@ -26,9 +26,11 @@ const MovieCard = ({
 
   return (
     <div
-      className={`relative pr-4 cursor-pointer transition-all duration-300 ease-in-out transform ${
-        isHovered ? "z-50 scale-110 shadow-2xl" : "scale-100"
-      } w-48 min-w-[12rem] h-[22rem]`}
+      className={`relative pr-4 cursor-pointer transition-all duration-300 ease-in-out transform-gpu ${
+        isHovered
+          ? "z-50 scale-125 -translate-y-2 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+          : "scale-100 translate-y-0"
+      } w-48 min-w-[12rem] h-[22rem] origin-bottom`}
       onClick={handleMovieClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

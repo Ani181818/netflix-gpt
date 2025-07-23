@@ -108,9 +108,12 @@ const MovieDetail = () => {
 
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8 md:p-12">
           <div className="max-w-4xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
               {movie.title}
             </h1>
+            <p className="text-lg md:text-xl text-gray-200 mb-6 drop-shadow-md">
+              {movie.overview}
+            </p>
 
             {trailer && !showTrailer && (
               <button

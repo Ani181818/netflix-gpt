@@ -19,7 +19,6 @@ const GptSearchBar = () => {
       return json.results;
   }
   const gptSearchClick = async () => {
-    console.log(searchText.current.value);
     //Make an Api Call to Get MOvie Recommedation
     const query = searchText.current.value.trim();
     if (!query) return; // optional: prevent empty search
@@ -31,7 +30,7 @@ const GptSearchBar = () => {
         model: "gpt-4.1-mini",
         messages: [{ role: "user", content: gptQuery }],
       });
-      console.log(gptResults.choices);
+      
 
       const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
       

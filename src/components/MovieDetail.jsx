@@ -45,7 +45,7 @@ const MovieDetail = () => {
   }, [movieId]);
 
   const handleGoBack = () => {
-    navigate(-1);
+    navigate("/browse");
   };
 
   if (loading) {
@@ -79,7 +79,7 @@ const MovieDetail = () => {
         onClick={handleGoBack}
         className="fixed top-20 left-6 z-30 bg-black/70 hover:bg-black/90 p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
       >
-        <ArrowLeft className="w-6 h-6" />
+        Click me
       </button>
 
       {/* Hero Section with Trailer */}
@@ -88,7 +88,8 @@ const MovieDetail = () => {
           <div className="w-full h-screen">
             <iframe
               className="w-full h-full object-cover"
-              src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&controls=1&rel=0`}
+              src={`https://www.youtube.com/embed/${trailer.key}?mute=1&controls=1&rel=0`}
+
               title="Movie Trailer"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

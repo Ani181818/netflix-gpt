@@ -2,11 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { Play } from "lucide-react";
 import { useState } from "react";
 import { IMG_CDN_URL } from "../utils/constants"
-import TrailerModal from "./TrailerModal";
 
 const MovieCard = ({posterPath, movieId, movieTitle}) => {
     const navigate = useNavigate();
-    const [isTrailerOpen, setIsTrailerOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     
     if(!posterPath)return ;
@@ -17,12 +15,9 @@ const MovieCard = ({posterPath, movieId, movieTitle}) => {
 
     const handlePlayClick = (e) => {
         e.stopPropagation(); // Prevent navigation when clicking play button
-        setIsTrailerOpen(true);
+        navigate(`/movie/${movieId}`);
     };
 
-    const closeTrailer = () => {
-        setIsTrailerOpen(false);
-    };
     
     return (
         <>
@@ -60,13 +55,6 @@ const MovieCard = ({posterPath, movieId, movieTitle}) => {
                 </div>
             </div>
 
-            {/* Trailer Modal */}
-            <TrailerModal
-                movieId={movieId}
-                movieTitle={movieTitle}
-                isOpen={isTrailerOpen}
-                onClose={closeTrailer}
-            />
         </>
     )
 }

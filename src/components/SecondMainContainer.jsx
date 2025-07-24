@@ -1,14 +1,12 @@
 import { useSelector } from "react-redux";
 import MovieList from "./MovieList";
-import NavigationBar from "./NavigationBar";
 
 const SecondMainContainer = () => {
     const movies = useSelector(store => store.movies)
     return movies.moviesList && (
         <>
             <div className="bg-black">
-                <NavigationBar />
-                <div className="-mt-50 pl-12 relative z-20">
+                <div className="pt-32 pl-12 relative z-20">
                 <div id="now-playing" className="scroll-mt-32">
                     <MovieList title = {"Now Playing"} movies = {movies.moviesList}/>
                 </div>

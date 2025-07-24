@@ -27,7 +27,7 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="sticky top-16 z-30 bg-black/90 backdrop-blur-md border-b border-gray-800">
+    <div className="bg-black/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex items-center justify-center py-4">
           <div className="flex space-x-1 bg-gray-900/50 rounded-full p-1">

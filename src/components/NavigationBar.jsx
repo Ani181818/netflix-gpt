@@ -6,6 +6,7 @@ const navItems = [
   { label: "Popular", id: "popular" },
   { label: "Upcoming", id: "upcoming" },
   { label: "Horror", id: "horror" },
+  { label: "Watchlist", id: "watchlist" }, // Add Watchlist nav item
 ];
 
 const handleNavClick = (e, id) => {

@@ -1,7 +1,7 @@
 
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
@@ -12,6 +12,7 @@ import NavigationBar from "./NavigationBar";
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const userItem = useSelector((store)=>store.user)
     const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
@@ -50,6 +51,7 @@ const Header = () => {
         //unsubscribe when component unmounts
         return () => unsubscribe();
     },[])
+    const isWatchlistPage = location.pathname === "/watchlist";
     return (
       <>
         <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black via-black/90 to-transparent">
@@ -70,7 +72,8 @@ const Header = () => {
             {/* Right side - User Controls */}
             {userItem && (
               <div className="flex p-2">
-                {showGptSearch && (
+                {/* Hide GPT Search and language selector on Watchlist page */}
+                {!isWatchlistPage && showGptSearch && (
                   <select
                     className="p-2 m-2 bg-gray-900 text-white rounded"
                     onChange={handleLanguageChange}
@@ -82,12 +85,14 @@ const Header = () => {
                     ))}
                   </select>
                 )}
-                <button
-                  onClick={handleGptSearchClick}
-                  className="cursor-pointer py-2 px-4 m-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
-                >
-                  {showGptSearch ? "Homepage" : "GPT Search"}
-                </button>
+                {!isWatchlistPage && (
+                  <button
+                    onClick={handleGptSearchClick}
+                    className="cursor-pointer py-2 px-4 m-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                  >
+                    {showGptSearch ? "Homepage" : "GPT Search"}
+                  </button>
+                )}
                 <img
                   className="w-12 h-12 rounded-full"
                   src={userItem.photoURL}

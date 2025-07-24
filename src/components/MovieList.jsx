@@ -20,20 +20,24 @@ const MovieList = ({ title, movies }) => {
   };
 
   return (
-    <div className="relative px-6 text-white">
-      <h1 className="text-3xl py-4">{title}</h1>
-
+    <div className="relative px-2 sm:px-6 text-white mb-12">
+      {title && title !== "" && (
+        <>
+          <hr className="border-t border-gray-700 mb-6" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold py-2 mb-4 tracking-tight drop-shadow-lg text-red-400 uppercase letter-spacing-wide">{title}</h1>
+        </>
+      )}
       {/* Arrows */}
       <button
         onClick={scrollLeft}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-80 p-2 rounded-full"
+        className="hidden sm:flex absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-80 p-2 rounded-full shadow-lg"
       >
         <ChevronLeft size={30} />
       </button>
 
       <button
         onClick={scrollRight}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-80 p-2 rounded-full"
+        className="hidden sm:flex absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-black bg-opacity-50 hover:bg-opacity-80 p-2 rounded-full shadow-lg"
       >
         <ChevronRight size={30} />
       </button>
@@ -41,7 +45,7 @@ const MovieList = ({ title, movies }) => {
       {/* Scrollable Movie Cards */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-scroll scrollbar-hide space-x-4"
+        className="flex overflow-x-scroll scrollbar-hide space-x-4 pb-2"
       >
         {movies?.map((movie) => (
           <MovieCard
@@ -51,6 +55,7 @@ const MovieList = ({ title, movies }) => {
             voteAverage={movie.vote_average}
             voteCount={movie.vote_count}
             movieTitle={movie.title || movie.original_title}
+            movie={movie} // Pass full movie object
           />
         ))}
       </div>

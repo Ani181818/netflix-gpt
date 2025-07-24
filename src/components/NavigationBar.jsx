@@ -27,16 +27,14 @@ const NavigationBar = () => {
   };
 
   return (
-    <div className="bg-black/80 backdrop-blur-md border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4">
-        <nav className="flex items-center justify-center py-4">
+        <nav className="flex items-center">
           <div className="flex space-x-1 bg-gray-900/50 rounded-full p-1">
             {navigationItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
                 className={`
-                  flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
+                  flex items-center space-x-1 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300
                   ${
                     activeSection === item.id
                       ? "bg-red-600 text-white shadow-lg transform scale-105"
@@ -44,14 +42,11 @@ const NavigationBar = () => {
                   }
                 `}
               >
-                <span className="text-lg">{item.icon}</span>
-                <span className="hidden sm:inline">{item.label}</span>
+                <span className="text-base">{item.icon}</span>
+                <span className="hidden lg:inline">{item.label}</span>
               </button>
             ))}
           </div>
-        </nav>
-      </div>
-    </div>
   );
 };
 

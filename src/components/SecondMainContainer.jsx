@@ -6,7 +6,7 @@ const SecondMainContainer = () => {
     return movies.moviesList && (
         <>
             <div className="bg-black">
-                <div className="pt-32 pl-12 relative z-20">
+                <div className="pt-20 pl-12 relative z-20">
                 <div id="now-playing" className="scroll-mt-32">
                     <MovieList title = {"Now Playing"} movies = {movies.moviesList}/>
                 </div>

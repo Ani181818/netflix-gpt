@@ -53,11 +53,21 @@ const Header = () => {
     return (
       <>
         <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black via-black/90 to-transparent">
-          {/* Top Header Bar */}
-          <div className="flex justify-between w-full px-8 py-2">
-            <Link to="/browse">
-              <img className="w-44" src={LOGO} alt="logo" />
-            </Link>
+          {/* Single Header Bar with Logo, Navigation, and User Controls */}
+          <div className="flex justify-between items-center w-full px-8 py-2">
+            {/* Left side - Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              <Link to="/browse">
+                <img className="w-36" src={LOGO} alt="logo" />
+              </Link>
+              
+              {/* Navigation Bar - Only show when not in GPT Search mode and user is logged in */}
+              {userItem && !showGptSearch && (
+                <NavigationBar />
+              )}
+            </div>
+
+            {/* Right side - User Controls */}
             {userItem && (
               <div className="flex p-2">
                 {showGptSearch && (
@@ -92,11 +102,6 @@ const Header = () => {
               </div>
             )}
           </div>
-          
-          {/* Navigation Bar - Only show when not in GPT Search mode and user is logged in */}
-          {userItem && !showGptSearch && (
-            <NavigationBar />
-          )}
         </div>
       </>
     );

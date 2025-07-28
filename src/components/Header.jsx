@@ -10,6 +10,7 @@ import { removeGptMovieList, toggleGptSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import NavigationBar from "./NavigationBar";
 import { Play } from "lucide-react";
+
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -57,15 +58,15 @@ const Header = () => {
       <>
         <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-black via-black/90 to-transparent">
           {/* Single Header Bar with Logo, Navigation, and User Controls */}
-          <div className="flex justify-between items-center w-full px-8 py-2">
+          <div className="flex justify-between items-center w-full px-4 sm:px-6 md:px-8 py-2">
             {/* Left side - Logo and Navigation */}
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-4 sm:space-x-6 md:space-x-8">
               <Link to="/browse">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
-                    <Play className="w-5 h-5 text-white fill-white" />
+                <div className="flex items-center space-x-1 sm:space-x-2">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                    <Play className="w-3 h-3 sm:w-5 sm:h-5 text-white fill-white" />
                   </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                  <span className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
                     MovieGPT
                   </span>
                 </div>
@@ -79,11 +80,11 @@ const Header = () => {
 
             {/* Right side - User Controls */}
             {userItem && (
-              <div className="flex p-2">
+              <div className="flex items-center p-1 sm:p-2">
                 {/* Hide GPT Search and language selector on Watchlist page */}
                 {!isWatchlistPage && showGptSearch && (
                   <select
-                    className="p-2 m-2 bg-gray-900 text-white rounded"
+                    className="p-1 sm:p-2 m-1 sm:m-2 bg-gray-900 text-white rounded text-xs sm:text-sm"
                     onChange={handleLanguageChange}
                   >
                     {SUPPORTED_LANGUAGES.map((lang) => (
@@ -96,19 +97,19 @@ const Header = () => {
                 {!isWatchlistPage && (
                   <button
                     onClick={handleGptSearchClick}
-                    className="cursor-pointer py-2 px-4 m-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                    className="cursor-pointer py-1 sm:py-2 px-2 sm:px-4 m-1 sm:m-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-xs sm:text-sm"
                   >
                     {showGptSearch ? "Homepage" : "GPT Search"}
                   </button>
                 )}
                 <img
-                  className="w-12 h-12 rounded-full"
+                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full"
                   src={userItem.photoURL}
                   alt="user-avatar"
                 />
                 <button
                   onClick={handleSignOut}
-                  className="text-white cursor-pointer font-bold ml-2 hover:text-red-400 transition-colors"
+                  className="text-white cursor-pointer font-bold ml-1 sm:ml-2 hover:text-red-400 transition-colors text-xs sm:text-sm"
                 >
                   (sign out)
                 </button>

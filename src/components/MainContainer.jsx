@@ -8,12 +8,10 @@ const MainContainer = () =>{
     const mainMovie = movies[1];
  
     return (
-        <>
-        <div>
+        <div className="relative w-full">
             <VideoTitle title = {mainMovie.original_title} overview = {mainMovie.overview}/>
             <VideoBackground movieId={mainMovie.id}/>
         </div>
-        </>
     )
 }
 

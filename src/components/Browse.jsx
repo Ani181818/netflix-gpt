@@ -7,27 +7,28 @@ import GPTSearch from "./GPTSearch";
 import Header from "./Header";
 import MainContainer from "./MainContainer";
 import SecondMainContainer from "./SecondMainContainer";
+
 const Browse = () => {
     const showGptSearch = useSelector(store => store.gpt.showGptSearch)
     useNowPlayingMovies();
     usePopularMovies();
     useTopRated();
     useUpcomingMovies();
+    
     return (
-      <>
-        <div>
-          <Header />
-          {showGptSearch ? (
+      <div className="min-h-screen bg-black">
+        <Header />
+        {showGptSearch ? (
+          <div className="pt-16">
             <GPTSearch />
-          ) : (
-            <>
-              <MainContainer />
-              <SecondMainContainer />
-            </>
-          )}
-         
-        </div>
-      </>
+          </div>
+        ) : (
+          <div className="pt-16">
+            <MainContainer />
+            <SecondMainContainer />
+          </div>
+        )}
+      </div>
     );
 }
 

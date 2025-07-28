@@ -41,7 +41,7 @@ const MovieCard = ({
 
   return (
     <div
-      className={`relative pr-4 transition-all duration-300 ease-in-out transform-gpu
+      className={`relative transition-all duration-300 ease-in-out transform-gpu
         ${isHovered ? "z-50 scale-105 border-2 border-red-600 shadow-2xl" : "scale-100 border border-transparent"}
         w-48 min-w-[12rem] h-[22rem] origin-bottom bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-2xl shadow-lg group overflow-hidden
       `}

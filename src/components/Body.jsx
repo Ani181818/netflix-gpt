@@ -3,12 +3,17 @@ import Browse from "./Browse";
 import Login from "./Login";
 import MovieDetail from "./MovieDetail";
 import WatchlistPage from "./WatchlistPage";
+import Welcome from "./Welcome";
 
 const Body = () => {
 
     const appRouter = createBrowserRouter([
         {
             path:"/",
+            element:<Welcome/>
+        },
+        {
+            path:"/login",
             element:<Login/>
         },
         {

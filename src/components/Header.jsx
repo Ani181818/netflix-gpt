@@ -5,10 +5,11 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
-import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
+import { SUPPORTED_LANGUAGES } from "../utils/constants";
 import { removeGptMovieList, toggleGptSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import NavigationBar from "./NavigationBar";
+import { Play } from "lucide-react";
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Header = () => {
     const handleSignOut = ()=>{
         // Sign out logic here
         signOut(auth).then().catch(() => {
-        navigate("/error")
+        navigate("/")
         });
 
     }
@@ -39,7 +40,7 @@ const Header = () => {
         const {uid,email,displayName,photoURL} = user;
          dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
          // Only navigate to browse if we're on the login page
-         if (window.location.pathname === "/") {
+         if (window.location.pathname === "/login") {
            navigate("/browse")
          }
         } else {
@@ -60,7 +61,14 @@ const Header = () => {
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
               <Link to="/browse">
-                <img className="w-36" src={LOGO} alt="logo" />
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center">
+                    <Play className="w-5 h-5 text-white fill-white" />
+                  </div>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+                    MovieGPT
+                  </span>
+                </div>
               </Link>
               
               {/* Navigation Bar - Only show when not in GPT Search mode and user is logged in */}

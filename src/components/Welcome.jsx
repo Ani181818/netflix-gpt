@@ -22,7 +22,7 @@ const Welcome = () => {
 
             {/* Login Button */}
             <Link
-              to="/"
+              to="/login"
               className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Login
@@ -51,7 +51,7 @@ const Welcome = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
               <Link
-                to="/"
+                to="/login"
                 className="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center space-x-2"
               >
                 <span>Get Started</span>

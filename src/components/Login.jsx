@@ -6,9 +6,10 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BG_URL, PHOTO_URL } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Play, ArrowLeft } from "lucide-react";
 const Login = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isSignIn,setIsSignIn] = useState(true);
     const toggleSignIn = ()=>{
@@ -32,6 +33,7 @@ const Login = () => {
             }).then(() => {
                 const {uid,email,displayName,photoURL} = auth.currentUser;
                 dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
+                navigate("/browse");
             }).catch((error) => {
                 setError(error.message);
             });
@@ -49,6 +51,7 @@ const Login = () => {
             // Signed in 
             const user = userCredential.user;
             console.log(user)
+            navigate("/browse");
             })
             .catch((error) => {
             const errorCode = error.code;

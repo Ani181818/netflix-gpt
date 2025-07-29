@@ -12,7 +12,7 @@ import NavigationBar from "./NavigationBar";
 
 import { Play, LogOut } from "lucide-react";
 
-import { Play, LogOut, Sun, Moon } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { toggleTheme } from "../utils/themeSlice";
 
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { APIOPTIONS, IMG_CDN_URL } from "../utils/constants";
 import Header from "./Header";
 import { ArrowLeft, Play, X } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const MovieDetail = () => {
   const { movieId } = useParams();

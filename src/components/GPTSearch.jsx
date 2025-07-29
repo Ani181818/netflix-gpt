@@ -4,7 +4,7 @@ import GptSearchBar from "./GptSearchBar";
 
 const GPTSearch = () => {
   return (
-    <div className="relative min-h-screen text-white">
+    <div className="relative w-full text-white">
       {/* Background Image */}
       <div className="fixed inset-0 -z-10">
         <img

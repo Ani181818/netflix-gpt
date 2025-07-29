@@ -17,6 +17,7 @@ const MovieCard = ({
   const [isHovered, setIsHovered] = useState(false);
   const dispatch = useDispatch();
   const watchlist = useSelector((store) => store.movies.watchlist);
+  const isDarkMode = useSelector((store) => store.theme.isDarkMode);
   const isInWatchlist = watchlist.some((m) => m.id === movieId);
 
   if (!posterPath) return null;
@@ -43,7 +44,7 @@ const MovieCard = ({
     <div
       className={`relative transition-all duration-300 ease-in-out transform-gpu
         ${isHovered ? "z-50 scale-105 border-2 border-red-600 shadow-2xl" : "scale-100 border border-transparent"}
-        w-48 min-w-[12rem] h-[22rem] origin-bottom bg-gradient-to-br from-gray-900 via-black to-gray-800 rounded-2xl shadow-lg group overflow-hidden
+        w-48 min-w-[12rem] h-[22rem] origin-bottom ${isDarkMode ? 'bg-gradient-to-br from-gray-900 via-black to-gray-800' : 'bg-gradient-to-br from-gray-100 via-white to-gray-200'} rounded-2xl shadow-lg group overflow-hidden
       `}
       onClick={handleMovieClick}
       onMouseEnter={() => setIsHovered(true)}
@@ -89,9 +90,9 @@ const MovieCard = ({
         </button>
       </div>
       {/* Title + Rating Info */}
-      <div className="mt-2 px-2 pb-2 text-white">
+      <div className={`mt-2 px-2 pb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
         <h3 className="text-base font-bold truncate mb-1 drop-shadow-lg">{movieTitle}</h3>
-        <div className="flex items-center justify-between text-xs text-gray-300">
+        <div className={`flex items-center justify-between text-xs ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           <span>⭐ {voteAverage?.toFixed(1)}/10</span>
           <span>🗳️ {voteCount?.toLocaleString()} votes</span>
         </div>

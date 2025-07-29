@@ -10,13 +10,14 @@ import SecondMainContainer from "./SecondMainContainer";
 
 const Browse = () => {
     const showGptSearch = useSelector(store => store.gpt.showGptSearch)
+    const isDarkMode = useSelector(store => store.theme.isDarkMode)
     useNowPlayingMovies();
     usePopularMovies();
     useTopRated();
     useUpcomingMovies();
     
     return (
-      <div className="min-h-screen bg-black">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-black' : 'bg-gray-100'}`}>
         <Header />
         {showGptSearch ? (
           <div className="pt-16">

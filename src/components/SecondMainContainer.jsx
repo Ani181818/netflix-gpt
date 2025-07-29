@@ -3,8 +3,9 @@ import MovieList from "./MovieList";
 
 const SecondMainContainer = () => {
     const movies = useSelector(store => store.movies)
+    const isDarkMode = useSelector(store => store.theme.isDarkMode)
     return movies.moviesList && (
-        <div className="bg-black">
+        <div className={isDarkMode ? "bg-black" : "bg-white"}>
             <div className="pt-16 sm:pt-20 px-4 sm:px-8 md:px-12 relative z-20">
                 <div id="now-playing" className="scroll-mt-32">
                     <MovieList title = {"Now Playing"} movies = {movies.moviesList}/>

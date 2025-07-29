@@ -7,6 +7,7 @@ import { ArrowLeft, Play, X } from "lucide-react";
 const MovieDetail = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
+  const isDarkMode = useSelector(store => store.theme.isDarkMode);
 
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
@@ -50,7 +51,7 @@ const MovieDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex justify-center items-center">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'} flex justify-center items-center`}>
         Loading...
       </div>
     );
@@ -58,22 +59,22 @@ const MovieDetail = () => {
 
   if (!movie) {
     return (
-      <div className="min-h-screen bg-black text-white flex justify-center items-center">
+      <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'} flex justify-center items-center`}>
         Movie not found.
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className={`min-h-screen ${isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'}`}>
       <Header />
 
       {/* Back Button */}
       <button
         onClick={handleGoBack}
-        className="fixed top-20 left-6 z-30 bg-black/70 hover:bg-black/90 p-3 rounded-full transition-all duration-300 backdrop-blur-sm"
+        className={`fixed top-20 left-6 z-30 ${isDarkMode ? 'bg-black/70 hover:bg-black/90' : 'bg-white/70 hover:bg-white/90'} p-3 rounded-full transition-all duration-300 backdrop-blur-sm`}
       >
-        <ArrowLeft className="w-6 h-6" />
+        <ArrowLeft className={`w-6 h-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`} />
       </button>
 
       {/* Trailer Modal Fullscreen */}
@@ -106,12 +107,12 @@ const MovieDetail = () => {
           <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-8 md:p-12">
+        <div className={`absolute bottom-0 left-0 right-0 ${isDarkMode ? 'bg-gradient-to-t from-black via-black/80 to-transparent' : 'bg-gradient-to-t from-white via-white/80 to-transparent'} p-8 md:p-12`}>
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
               {movie.title}
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 mb-6 drop-shadow-md">
+            <p className={`text-lg md:text-xl ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} mb-6 drop-shadow-md`}>
               {movie.overview}
             </p>
 
@@ -129,7 +130,7 @@ const MovieDetail = () => {
       </div>
 
       {/* Movie Info Section */}
-      <div className="px-8 md:px-12 py-12 bg-gray-900">
+      <div className={`px-8 md:px-12 py-12 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="md:col-span-1">
@@ -143,16 +144,16 @@ const MovieDetail = () => {
             <div className="md:col-span-2 space-y-6">
               <div>
                 <h2 className="text-2xl font-bold mb-4">Movie Details</h2>
-                <div className="grid sm:grid-cols-2 gap-4 text-gray-300">
+                <div className={`grid sm:grid-cols-2 gap-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                   <div>
-                    <span className="font-semibold text-white">
+                    <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                       Release Date:
                     </span>
                     <p>{new Date(movie.release_date).toLocaleDateString()}</p>
                   </div>
 
                   <div>
-                    <span className="font-semibold text-white">Rating:</span>
+                    <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Rating:</span>
                     <p>
                       {movie.vote_average.toFixed(1)}/10 ({movie.vote_count}{" "}
                       votes)
@@ -161,27 +162,27 @@ const MovieDetail = () => {
 
                   {movie.runtime && (
                     <div>
-                      <span className="font-semibold text-white">Runtime:</span>
+                      <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Runtime:</span>
                       <p>{formatRuntime(movie.runtime)}</p>
                     </div>
                   )}
 
                   {movie.budget > 0 && (
                     <div>
-                      <span className="font-semibold text-white">Budget:</span>
+                      <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Budget:</span>
                       <p>${movie.budget.toLocaleString()}</p>
                     </div>
                   )}
 
                   {movie.revenue > 0 && (
                     <div>
-                      <span className="font-semibold text-white">Revenue:</span>
+                      <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Revenue:</span>
                       <p>${movie.revenue.toLocaleString()}</p>
                     </div>
                   )}
 
                   <div>
-                    <span className="font-semibold text-white">Status:</span>
+                    <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Status:</span>
                     <p>{movie.status}</p>
                   </div>
                 </div>
@@ -194,7 +195,7 @@ const MovieDetail = () => {
                   </h3>
                   <div className="flex flex-wrap gap-4">
                     {movie.production_companies.map((company) => (
-                      <div key={company.id} className="text-gray-300">
+                      <div key={company.id} className={isDarkMode ? "text-gray-300" : "text-gray-600"}>
                         {company.name}
                       </div>
                     ))}

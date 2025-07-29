@@ -8,6 +8,7 @@ import { addGptMovieList } from "../utils/gptSlice";
 const GptSearchBar = () => {
   const searchText = useRef();
   const dispatch = useDispatch();
+  const isDarkMode = useSelector((store) => store.theme.isDarkMode);
 
   const searchMovieTmdb = async(movie)=>{
       const data = await fetch(
@@ -48,13 +49,13 @@ const GptSearchBar = () => {
   return (
     <div className="w-full flex justify-center mt-10">
       <form
-        className="w-full max-w-2xl bg-black/70 backdrop-blur-md rounded-xl p-6 flex items-center shadow-lg "
+        className={`w-full max-w-2xl ${isDarkMode ? 'bg-black/70' : 'bg-white/90'} backdrop-blur-md rounded-xl p-6 flex items-center shadow-lg`}
         onSubmit={(e) => e.preventDefault()}
       >
         <input
           type="text"
           ref={searchText}
-          className="flex-grow p-4 rounded-l-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500"
+          className={`flex-grow p-4 rounded-l-lg ${isDarkMode ? 'bg-gray-800 text-white placeholder-gray-400' : 'bg-gray-100 text-gray-900 placeholder-gray-500'} focus:outline-none focus:ring-2 focus:ring-red-500`}
           placeholder={lang[langKey].gptSearchPlaceholder}
         />
         <button

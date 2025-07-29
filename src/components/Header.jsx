@@ -9,7 +9,8 @@ import { SUPPORTED_LANGUAGES } from "../utils/constants";
 import { removeGptMovieList, toggleGptSearchView } from "../utils/gptSlice";
 import { changeLanguage } from "../utils/configSlice";
 import NavigationBar from "./NavigationBar";
-import { Play, LogOut } from "lucide-react";
+import { Play, LogOut, Sun, Moon } from "lucide-react";
+import { toggleTheme } from "../utils/themeSlice";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -17,11 +18,17 @@ const Header = () => {
     const location = useLocation();
     const userItem = useSelector((store)=>store.user)
     const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+    const isDarkMode = useSelector((store) => store.theme.isDarkMode);
 
     const handleGptSearchClick = ()=> {
         dispatch(toggleGptSearchView());
         dispatch(removeGptMovieList());
     }
+    
+    const handleThemeToggle = () => {
+        dispatch(toggleTheme());
+    };
+    
     const handleLanguageChange = (e) => {
       dispatch(changeLanguage(e.target.value));
     };
@@ -102,6 +109,20 @@ const Header = () => {
                     {showGptSearch ? "Homepage" : "GPT Search"}
                   </button>
                 )}
+                <button
+                  onClick={handleThemeToggle}
+                  className="ml-2 sm:ml-3 flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 sm:py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition-all duration-200 text-xs sm:text-sm font-medium border border-gray-700 hover:border-gray-500"
+                  aria-label="Toggle theme"
+                >
+                  {isDarkMode ? (
+                    <Sun className="w-3 h-3 sm:w-4 sm:h-4" />
+                  ) : (
+                    <Moon className="w-3 h-3 sm:w-4 sm:h-4" />
+                  )}
+                  <span className="hidden sm:inline">
+                    {isDarkMode ? "Light" : "Dark"}
+                  </span>
+                </button>
                 <img
                   className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-600 hover:border-red-500 transition-colors duration-200"
                   src={userItem.photoURL}
